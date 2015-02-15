@@ -17,6 +17,9 @@ public interface ConsumeListener extends BaseInAppListener {
      */
     public void onConsumeSucceed();
 
+    /**
+     * this method is called when the requested product is not owned by user
+     */
     public void onItemNotOwned();
 
     /**

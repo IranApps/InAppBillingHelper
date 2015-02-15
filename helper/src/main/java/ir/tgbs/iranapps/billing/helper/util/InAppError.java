@@ -84,8 +84,7 @@ public enum InAppError {
 
     /**
      * finds the {@link InAppError} by the given error code <br>
-     * if error code doesn't exist throws a {@link RuntimeException}.<br>
-     * <p>
+     * if error code doesn't exist throws a {@link RuntimeException}.<p>
      * you can use the message of the error to understand the error by {@link InAppError#getMessage()}
      *
      * @param errorCode error code of the occurred error (if doesn't exist throws an exception)

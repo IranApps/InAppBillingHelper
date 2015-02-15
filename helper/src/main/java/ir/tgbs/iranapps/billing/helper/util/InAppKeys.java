@@ -35,6 +35,4 @@ public class InAppKeys {
             LOCAL_CANT_CONNECT_TO_IAB_SERVICE = 11,
             LOCAL_HELPER_NOT_CONNECTED_TO_SERVICE = 12,
             LOCAL_EXCEPTION = 13;
-
-
 }

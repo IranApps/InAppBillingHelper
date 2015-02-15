@@ -36,8 +36,7 @@ public abstract class InAppRequestHelper {
      * this method should be called inside
      * {@link android.app.Activity#onActivityResult(int, int, android.content.Intent)}
      * or if its in a fragment
-     * {@link android.app.Fragment#onActivityResult(int, int, android.content.Intent)}
-     * <p>
+     * {@link android.app.Fragment#onActivityResult(int, int, android.content.Intent)} <p>
      * handles the response of the request and returns the response on {@link #baseInAppListener}
      *
      * @param requestCode The integer request code originally supplied to

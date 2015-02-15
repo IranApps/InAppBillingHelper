@@ -6,8 +6,7 @@ import ir.tgbs.iranapps.billing.IranAppsIabService;
 import ir.tgbs.iranapps.billing.helper.interfaces.ConsumeListener;
 
 /**
- * helper class for consuming a owned product.
- * <p>
+ * helper class for consuming a owned product. <p>
  * gives back the response on the given listener {@link ConsumeListener}
  *
  * @author Shima Zeinali

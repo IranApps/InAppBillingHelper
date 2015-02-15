@@ -20,8 +20,7 @@ import ir.tgbs.iranapps.billing.helper.interfaces.PurchasesListener;
 import ir.tgbs.iranapps.billing.helper.interfaces.SkuDetailListener;
 
 /**
- * <h1>IranApps in-app billing helper class</h1>
- * <p>
+ * <h1>IranApps in-app billing helper class</h1> <p>
  * you can use this helper to make all your in-app billing requests to iranapps billing service.
  *
  * @author Shima Zeinali
@@ -76,8 +75,7 @@ public class InAppHelper {
      * </p>
      * you must always call {@link ir.tgbs.iranapps.billing.helper.util.InAppHelper#onActivityResult(int, int, android.content.Intent)}
      * from your {@link android.app.Activity#onActivityResult(int, int, android.content.Intent)}
-     * otherwise the helper wouldn't work properly
-     * <p>
+     * otherwise the helper wouldn't work properly <p>
      * you also should call {@link InAppHelper#onActivityDestroy()} for your {@link android.app.Activity#onDestroy()}
      * for the helper to work properly
      *
@@ -222,8 +220,7 @@ public class InAppHelper {
      * this method should be called inside
      * {@link android.app.Activity#onActivityResult(int, int, android.content.Intent)}
      * or if its in a fragment
-     * {@link android.app.Fragment#onActivityResult(int, int, android.content.Intent)}
-     * <p>
+     * {@link android.app.Fragment#onActivityResult(int, int, android.content.Intent)} <p>
      * handles the response of the request that is waiting for the response.
      *
      * @param requestCode The integer request code originally supplied to

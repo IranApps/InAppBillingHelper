@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+apply plugin: 'bintray-release'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+publish {
+    userOrg = 'iranapps'
+    groupId = 'ir.tgbs.iranapps'
+    artifactId = 'billing-helper'
+    version = '1.0'
+    description = 'A helper for IranApps in-app billing service'
+    website = 'https://github.com/IranApps/InAppBillingHelper'
+    issueTracker = "${website}/issues"
+    repository = "${website}.git"
+}

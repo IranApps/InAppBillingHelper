@@ -154,9 +154,8 @@ public class InAppHelper {
      * @param consumable       whether this purchase can be consumed or not
      * @param developerPayload optional parameter that can later be used to check the validity of the purchase data
      * @param listener         purchase callback listener
-     * @throws android.os.RemoteException on connection failure with billing service
      */
-    public void buyProduct(final String productId, final String developerPayload, boolean consumable, BuyProductListener listener) throws RemoteException {
+    public void buyProduct(final String productId, final String developerPayload, boolean consumable, BuyProductListener listener) {
         pendingRequest = new BuyProductHelper(activity, inAppService, productId, consumable, developerPayload, listener);
         pendingRequest.start();
     }

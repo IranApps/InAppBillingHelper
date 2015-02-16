@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -27,7 +27,7 @@ publish {
     userOrg = 'iranapps'
     groupId = 'ir.tgbs.iranapps'
     artifactId = 'billing-helper'
-    version = '1.0'
+    version = '1.0.1'
     description = 'A helper for IranApps in-app billing service'
     website = 'https://github.com/IranApps/InAppBillingHelper'
     issueTracker = "${website}/issues"

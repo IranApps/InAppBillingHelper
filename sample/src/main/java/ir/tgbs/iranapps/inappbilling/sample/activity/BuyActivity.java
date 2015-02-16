@@ -1,7 +1,6 @@
 package ir.tgbs.iranapps.inappbilling.sample.activity;
 
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -38,22 +37,18 @@ public class BuyActivity extends BaseInAppActivity {
         bBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    inAppHelper.buyProduct(product.productId, null, false, new BuyProductListener() {
-                        @Override
-                        public void onBuyProductSucceed(PurchaseItem purchaseItem) {
-                            Util.showAlertDialog(BuyActivity.this, purchaseItem.productId + " was purchased", true);
-                        }
+                inAppHelper.buyProduct(product.productId, null, false, new BuyProductListener() {
+                    @Override
+                    public void onBuyProductSucceed(PurchaseItem purchaseItem) {
+                        Util.showAlertDialog(BuyActivity.this, purchaseItem.productId + " was purchased", true);
+                    }
 
-                        @Override
-                        public void onBuyProductFailed(InAppError error) {
-                            if (error != InAppError.BILLING_RESPONSE_RESULT_USER_CANCELED)
-                                Util.showAlertDialog(BuyActivity.this, error.getMessage(), false);
-                        }
-                    });
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                    @Override
+                    public void onBuyProductFailed(InAppError error) {
+                        if (error != InAppError.BILLING_RESPONSE_RESULT_USER_CANCELED)
+                            Util.showAlertDialog(BuyActivity.this, error.getMessage(), false);
+                    }
+                });
             }
         });
     }

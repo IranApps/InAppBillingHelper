@@ -6,13 +6,13 @@ in the project there's also a sample of how to use the helper.
 
 you can find [IranApps in-app billing documentation here](http://developer.iranapps.ir/docs/inappbilling)
 
-### Current version 1.0.1
+### Current version 1.0
 
 ### Gradle Dependency (jCenter)  
 Easily reference the library in your Android projects using this dependency in your module's `build.gradle` file:  
 ```Gradle
 dependencies {
-    compile 'ir.tgbs.iranapps:billing-helper:1.0.1'
+    compile 'ir.tgbs.iranapps:billing-helper:1.0'
 }
 ```
 [ ![Download](https://api.bintray.com/packages/iranapps/maven/billing-helper/images/download.svg) ](https://bintray.com/iranapps/maven/billing-helper/_latestVersion)
@@ -58,6 +58,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     inAppHelper.onActivityResult(requestCode, resultCode, data);
 }
 ```
+
+## Proguard support
+if your using proguard in your app add this line to you proguard-rules.pro file
+```
+-keep class ir.tgbs.iranapps.billing.IranAppsIabService
+```
+
 
 ## Run the sample
 this project is based on Android Studio.  

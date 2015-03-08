@@ -61,10 +61,10 @@ public class SkuActivity extends BaseInAppActivity {
 
         //define products ID
         ArrayList<String> skus = new ArrayList<>();
-        skus.add("product 1");
-        skus.add("product 2");
-        skus.add("product 3");
-        skus.add("product 4");
+        skus.add("product_1");
+        skus.add("product_2");
+        skus.add("product_3");
+        skus.add("product_4");
 
         inAppHelper.getSkuDetails(skus, new SkuDetailListener() {
             @Override

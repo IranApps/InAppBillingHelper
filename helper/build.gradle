@@ -27,7 +27,7 @@ publish {
     userOrg = 'iranapps'
     groupId = 'ir.tgbs.iranapps'
     artifactId = 'billing-helper'
-    version = '1.0.1'
+    version = '1.0.2'
     description = 'A helper for IranApps in-app billing service'
     website = 'https://github.com/IranApps/InAppBillingHelper'
     issueTracker = "${website}/issues"

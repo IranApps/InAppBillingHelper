@@ -6,7 +6,7 @@ in the project there's also a sample of how to use the helper.
 
 you can find [IranApps in-app billing documentation here](http://developer.iranapps.ir/docs/inappbilling)
 
-### Current version 1.0.1
+### Current version 1.0.2
 
 ### Gradle Dependency (jCenter)  
 the library is uploaded to jCenter and you can see it below:  
@@ -19,7 +19,7 @@ the library is uploaded to jCenter and you can see it below:
 Easily reference the library in your Android projects using this dependency in your module's `build.gradle` file:  
 ```Gradle
 dependencies {
-    compile 'ir.tgbs.iranapps:billing-helper:1.0.1'
+    compile 'ir.tgbs.iranapps:billing-helper:1.0.2'
 }
 ```
 

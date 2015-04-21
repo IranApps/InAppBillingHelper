@@ -1,5 +1,7 @@
 package ir.tgbs.iranapps.billing.helper.util;
 
+import android.util.Log;
+
 /**
  * @author Shima Zeinali
  * @author Khaled Bakhtiari
@@ -72,7 +74,12 @@ public enum InAppError {
     /**
      * any error or exception that happens inside the helper <br> errorCode is 13
      */
-    LOCAL_EXCEPTION("any error or exception that happens inside the helper", InAppKeys.LOCAL_EXCEPTION);
+    LOCAL_EXCEPTION("any error or exception that happens inside the helper", InAppKeys.LOCAL_EXCEPTION),
+
+    /**
+     * if an in-app billing service provider throws a error that is not defined you will get this error.
+     */
+    UNKNOWN_ERROR("no such error is defined", -1);
 
     private String message;
     private int code;
@@ -120,7 +127,9 @@ public enum InAppError {
                 return BILLING_RESPONSE_IRANAPPS_NOT_AVAILABLE;
 
             default:
-                throw new RuntimeException("there is no such error : " + errorCode);
+                Log.e("SuperIabHelper", "an undefined error was caught from in-app billing provider service, errorCode: '" + errorCode + "'");
+                UNKNOWN_ERROR.code = errorCode;
+                return UNKNOWN_ERROR;
         }
     }
 

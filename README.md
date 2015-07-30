@@ -27,7 +27,7 @@ dependencies {
 
 ### Import in Eclipse  
 to use this library in your eclpise projects to the following:  
-1. download the library's jar file from [jCenter at here](https://bintray.com/artifact/download/iranapps/maven/ir/tgbs/iranapps/billing-helper/1.0/billing-helper-1.0.jar)  
+1. download the library's jar file from [jCenter at here](https://bintray.com/artifact/download/iranapps/maven/ir/tgbs/iranapps/billing-helper/1.0.2/billing-helper-1.0.2.jar)  
 2. add the jar as a library to your project.  
 3. download IranApps in-app billing aidl file [from here](https://raw.githubusercontent.com/IranApps/InAppBillingHelper/master/helper/src/main/aidl/ir/tgbs/iranapps/billing/IranAppsIabService.aidl)  
 4. put the downloaded aidl file in `src/ir/tgbs/iranapps/billing`  

@@ -51,11 +51,6 @@ public class InAppHelper {
     IranAppsIabService inAppService;
 
     /**
-     * callback listener on connection to service's success or failure
-     */
-    InAppHelperListener inAppHelperListener;
-
-    /**
      * current on the fly request(this request is waiting for its response from onActivityResult)
      */
     InAppRequestHelper pendingRequest;
@@ -63,7 +58,7 @@ public class InAppHelper {
     /**
      * Service Connection used to bind to IranApps in-app billing service
      */
-    ServiceConnection inAppConnection = new InAppServiceConnection();
+    ServiceConnection inAppConnection;
 
     /**
      * creates an instance of InAppHelper with the given parameters.<br>
@@ -85,17 +80,17 @@ public class InAppHelper {
     public InAppHelper(Activity activity, InAppHelperListener inAppHelperListener) {
         PACKAGE_NAME = activity.getPackageName();
         this.activity = activity;
-        this.inAppHelperListener = inAppHelperListener;
 
         //bind to IranApps billing service
         Intent serviceIntent = new Intent(IranAppsIabService.class.getName());
         serviceIntent.setPackage(InAppKeys.IRANAPPS_PACKAGE_NAME);
+        inAppConnection = new InAppServiceConnection(inAppHelperListener);
         boolean canConnect = activity.bindService(serviceIntent, inAppConnection, Context.BIND_AUTO_CREATE);
         if (!canConnect) {
             if (!isIranAppsInstalled()) {
-                this.inAppHelperListener.onCantConnectToIABService(InAppError.BILLING_RESPONSE_IRANAPPS_NOT_AVAILABLE);
+                inAppHelperListener.onCantConnectToIABService(InAppError.BILLING_RESPONSE_IRANAPPS_NOT_AVAILABLE);
             } else {
-                this.inAppHelperListener.onCantConnectToIABService(InAppError.LOCAL_CANT_CONNECT_TO_IAB_SERVICE);
+                inAppHelperListener.onCantConnectToIABService(InAppError.LOCAL_CANT_CONNECT_TO_IAB_SERVICE);
             }
         }
     }
@@ -245,26 +240,32 @@ public class InAppHelper {
         /**
          * this method is called after the connection to billing service is established
          */
-        public void onConnectedToIABService();
+        void onConnectedToIABService();
 
         /**
          * this method is called when helper can't failed to connect to billing service
          *
          * @param error the error that caused the failure of helper to connect to billing service
          */
-        public void onCantConnectToIABService(InAppError error);
+        void onCantConnectToIABService(InAppError error);
 
         /**
          * after the connection to billing service is established,
          * whenever the connection is lost to billing service this method is called
          */
-        public void onConnectionLost();
+        void onConnectionLost();
     }
 
     /**
      * helper's service connection to IranApps in-app billing service
      */
     private class InAppServiceConnection implements ServiceConnection {
+        private InAppHelperListener inAppHelperListener;
+
+        public InAppServiceConnection(InAppHelperListener inAppHelperListener) {
+            this.inAppHelperListener = inAppHelperListener;
+        }
+
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             //connection is established make IranApps service and inform the listener

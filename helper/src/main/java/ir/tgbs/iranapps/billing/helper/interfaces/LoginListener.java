@@ -15,12 +15,12 @@ public interface LoginListener extends BaseInAppListener {
     /**
      * this method is called when the login process ic successfully completed.
      */
-    public void onLoginSucceed();
+    void onLoginSucceed();
 
     /**
      * this method is called whenever the process is failed.
      *
      * @param error the occurred error
      */
-    public void onLoginFailed(InAppError error);
+    void onLoginFailed(InAppError error);
 }

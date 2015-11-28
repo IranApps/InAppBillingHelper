@@ -18,17 +18,17 @@ public interface PurchasesListener extends BaseInAppListener {
     /**
      * this method is called when the purchase process ic successfully completed.
      *
-     * @param purchase          data of the purchase product
+     * @param purchases         data of the purchased products
      * @param continuationToken In case the number of purchased items is more than 100,
      *                          this key will hold a value that you could use to receive the rest of purchase data
      */
-    public void onGotPurchases(ArrayList<PurchaseData> purchase, String continuationToken);
+    void onGotPurchases(ArrayList<PurchaseData> purchases, String continuationToken);
 
     /**
      * this method is called whenever the process is failed.
      *
      * @param error the occurred error
      */
-    public void onFailedGettingPurchases(InAppError error);
+    void onFailedGettingPurchases(InAppError error);
 
 }

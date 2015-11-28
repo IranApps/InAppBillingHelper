@@ -20,13 +20,13 @@ public interface SkuDetailListener extends BaseInAppListener {
      *
      * @param productDetails detail of the sku
      */
-    public void onGotSkus(ArrayList<Product> productDetails);
+    void onGotSkus(ArrayList<Product> productDetails);
 
     /**
      * this method is called whenever the process is failed.
      *
      * @param error the occurred error
      */
-    public void onFailedGettingSkus(InAppError error);
+    void onFailedGettingSkus(InAppError error);
 
 }

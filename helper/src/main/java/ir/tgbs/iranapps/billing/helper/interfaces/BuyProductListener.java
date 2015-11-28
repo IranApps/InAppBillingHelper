@@ -18,12 +18,12 @@ public interface BuyProductListener extends BaseInAppListener {
      *
      * @param purchaseItem data of the bought product
      */
-    public void onBuyProductSucceed(PurchaseItem purchaseItem);
+    void onBuyProductSucceed(PurchaseItem purchaseItem);
 
     /**
      * this method is called whenever the process is failed.
      *
      * @param error the occurred error
      */
-    public void onBuyProductFailed(InAppError error);
+    void onBuyProductFailed(InAppError error);
 }

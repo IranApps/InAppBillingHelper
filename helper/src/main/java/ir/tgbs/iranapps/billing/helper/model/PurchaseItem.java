@@ -3,12 +3,14 @@ package ir.tgbs.iranapps.billing.helper.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * @author Shima Zeinali
  * @author Khaled Bakhtiari
  * @since 2015-02-14
  */
-public class PurchaseItem {
+public class PurchaseItem implements Serializable {
 
     /**
      * id of buy order
@@ -53,10 +55,10 @@ public class PurchaseItem {
 
     /**
      * use this method to create a new instance of {@link PurchaseItem}
-     * when you're sure that your json is valid
+     * when you're sure that your json is valid, if fails to parse RuntimeException is thrown
      *
      * @param jsonBuyData contains data of buy
-     * @return
+     * @return the instance of the given data.
      */
     public static PurchaseItem newInstanceNoException(String jsonBuyData) {
         try {

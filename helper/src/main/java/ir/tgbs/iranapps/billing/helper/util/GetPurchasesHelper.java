@@ -1,6 +1,8 @@
 package ir.tgbs.iranapps.billing.helper.util;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.RemoteException;
 
 import java.util.ArrayList;
@@ -39,7 +41,9 @@ public class GetPurchasesHelper extends Thread {
      *
      * @param inAppService      the service that provides communicate to IranApps in-app billing service
      * @param listener          callback listener for indicating failure and success purchase process
-     * @param continuationToken token for verify purchase
+     * @param continuationToken to be set as null for the first call, if the number of owned skus are too many,
+     *                          a continuationToken is returned in the response bundle. This method can
+     *                          be called again with the continuation token to get the next set of owned skus.
      */
     public GetPurchasesHelper(IranAppsIabService inAppService, PurchasesListener listener, String continuationToken) {
         this.inAppService = inAppService;
@@ -50,7 +54,7 @@ public class GetPurchasesHelper extends Thread {
     @Override
     public void run() {
         if (inAppService == null) {
-            listener.onFailedGettingPurchases(InAppError.LOCAL_HELPER_NOT_CONNECTED_TO_SERVICE);
+            postFailedGettingPurchases(InAppError.LOCAL_HELPER_NOT_CONNECTED_TO_SERVICE);
             return;
         }
 
@@ -59,7 +63,7 @@ public class GetPurchasesHelper extends Thread {
             Bundle response = inAppService.getPurchases(InAppHelper.IAB_VERSION, InAppHelper.PACKAGE_NAME, InAppHelper.TYPE_INAPP, continuationToken);
 
             if (response == null) {
-                listener.onFailedGettingPurchases(InAppError.getError(responseCode));
+                postFailedGettingPurchases(InAppError.getError(responseCode));
                 return;
             }
 
@@ -71,17 +75,49 @@ public class GetPurchasesHelper extends Thread {
                 ArrayList<String> dataList = response.getStringArrayList(InAppKeys.INAPP_PURCHASE_DATA_LIST);
                 ArrayList<String> signatureList = response.getStringArrayList(InAppKeys.INAPP_DATA_SIGNATURE_LIST);
 
-                for (int i = 0; i < itemList.size(); i++) {
-                    purchases.add(new PurchaseData(itemList.get(i), dataList.get(i), signatureList.get(i)));
+                if (itemList != null && dataList != null && signatureList != null) {
+                    for (int i = 0; i < itemList.size(); i++) {
+                        purchases.add(new PurchaseData(itemList.get(i), dataList.get(i), signatureList.get(i)));
+                    }
                 }
 
-                listener.onGotPurchases(purchases, response.getString(InAppKeys.INAPP_CONTINUATION_TOKEN));
+                postGotPurchases(purchases, response.getString(InAppKeys.INAPP_CONTINUATION_TOKEN));
             } else {
-                listener.onFailedGettingPurchases(InAppError.getError(responseCode));
+                postFailedGettingPurchases(InAppError.getError(responseCode));
             }
         } catch (RemoteException e) {
             e.printStackTrace();
-            listener.onFailedGettingPurchases(InAppError.LOCAL_EXCEPTION);
+            postFailedGettingPurchases(InAppError.LOCAL_EXCEPTION);
         }
+    }
+
+    public void setListener(PurchasesListener listener) {
+        this.listener = listener;
+    }
+
+    public PurchasesListener getListener() {
+        return listener;
+    }
+
+    public String getContinuationToken() {
+        return continuationToken;
+    }
+
+    private void postGotPurchases(final ArrayList<PurchaseData> purchases, final String continuationToken) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onGotPurchases(purchases, continuationToken);
+            }
+        });
+    }
+
+    private void postFailedGettingPurchases(final InAppError error) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onFailedGettingPurchases(error);
+            }
+        });
     }
 }

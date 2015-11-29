@@ -1,8 +1,7 @@
 package ir.tgbs.iranapps.billing.helper.util;
 
+import android.app.Activity;
 import android.content.Intent;
-
-import ir.tgbs.iranapps.billing.helper.interfaces.BaseInAppListener;
 
 /**
  * abstract request helper for in-app billing requests that start an activity in IranApps
@@ -14,30 +13,22 @@ import ir.tgbs.iranapps.billing.helper.interfaces.BaseInAppListener;
  */
 public abstract class InAppRequestHelper {
 
-    /**
-     * callback listener of this request <br>
-     * other requests pass an extend of {@link ir.tgbs.iranapps.billing.helper.interfaces.BaseInAppListener}
-     */
-    private BaseInAppListener baseInAppListener;
-
-    /**
-     * @param baseInAppListener callback listener of the request
-     */
-    public InAppRequestHelper(BaseInAppListener baseInAppListener) {
-        this.baseInAppListener = baseInAppListener;
+    public InAppRequestHelper() {
     }
 
     /**
      * starts the process of this helper.
+     *
+     * @param activity instance of the activity that has requested this operation
      */
-    public abstract void start();
+    public abstract void start(Activity activity);
 
     /**
      * this method should be called inside
      * {@link android.app.Activity#onActivityResult(int, int, android.content.Intent)}
      * or if its in a fragment
      * {@link android.app.Fragment#onActivityResult(int, int, android.content.Intent)} <p>
-     * handles the response of the request and returns the response on {@link #baseInAppListener}
+     * handles the response of the request.
      *
      * @param requestCode The integer request code originally supplied to
      *                    startActivityForResult(), allowing you to identify who this
@@ -48,8 +39,4 @@ public abstract class InAppRequestHelper {
      *                    (various data can be attached to Intent "extras").
      */
     public abstract void onActivityResult(int requestCode, int resultCode, Intent data);
-
-    public BaseInAppListener getListener() {
-        return baseInAppListener;
-    }
 }

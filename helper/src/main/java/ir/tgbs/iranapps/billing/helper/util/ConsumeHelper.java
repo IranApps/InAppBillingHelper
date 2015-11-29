@@ -1,5 +1,7 @@
 package ir.tgbs.iranapps.billing.helper.util;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.os.RemoteException;
 
 import ir.tgbs.iranapps.billing.IranAppsIabService;
@@ -47,7 +49,7 @@ public class ConsumeHelper extends Thread {
     @Override
     public void run() {
         if (inAppService == null) {
-            listener.onConsumeFailed(InAppError.LOCAL_HELPER_NOT_CONNECTED_TO_SERVICE);
+            postConsumeFailed(InAppError.LOCAL_HELPER_NOT_CONNECTED_TO_SERVICE);
             return;
         }
 
@@ -55,20 +57,59 @@ public class ConsumeHelper extends Thread {
             int responseCode = inAppService.consumePurchase(InAppHelper.IAB_VERSION, InAppHelper.PACKAGE_NAME, purchaseToken);
             switch (responseCode) {
                 case InAppKeys.RESPONSE_OK:
-                    listener.onConsumeSucceed();
+                    postConsumeSucceed();
                     break;
 
                 case InAppKeys.BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED:
-                    listener.onItemNotOwned();
+                    postItemNotOwned();
                     break;
 
                 default:
-                    listener.onConsumeFailed(InAppError.getError(responseCode));
+                    postConsumeFailed(InAppError.getError(responseCode));
                     break;
             }
         } catch (RemoteException e) {
             e.printStackTrace();
-            listener.onConsumeFailed(InAppError.LOCAL_EXCEPTION);
+            postConsumeFailed(InAppError.LOCAL_EXCEPTION);
         }
+    }
+
+    public void setListener(ConsumeListener listener) {
+        this.listener = listener;
+    }
+
+    public ConsumeListener getListener() {
+        return listener;
+    }
+
+    public String getPurchaseToken() {
+        return purchaseToken;
+    }
+
+    private void postConsumeSucceed() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onConsumeSucceed();
+            }
+        });
+    }
+
+    private void postItemNotOwned() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onItemNotOwned();
+            }
+        });
+    }
+
+    private void postConsumeFailed(final InAppError error) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onConsumeFailed(error);
+            }
+        });
     }
 }

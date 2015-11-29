@@ -14,11 +14,11 @@ import ir.tgbs.iranapps.billing.helper.model.PurchaseData;
 import ir.tgbs.iranapps.inappbilling.sample.R;
 
 
-public class PurchaseAdapter extends BaseAdapter {
+public class PurchasesAdapter extends BaseAdapter {
     private Context context;
     private List<PurchaseData> lstPurchase;
 
-    public PurchaseAdapter(Context context, ArrayList<PurchaseData> list) {
+    public PurchasesAdapter(Context context, ArrayList<PurchaseData> list) {
         this.context = context;
         this.lstPurchase = list;
     }
@@ -29,13 +29,13 @@ public class PurchaseAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_purchase, null);
             holder = new ViewHolder();
-            holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+            holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tv_title.setText(context.getString(R.string.sku_id) + " " + lstPurchase.get(position).sku);
+        holder.bindView(lstPurchase.get(position));
 
         return convertView;
     }
@@ -57,7 +57,15 @@ public class PurchaseAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView tv_title;
+        TextView tvTitle;
+
+        public void bindView(PurchaseData purchaseData) {
+            String text = String.format("%s: %s - %s: %s",
+                    context.getString(R.string.sku_id), purchaseData.sku,
+                    context.getString(R.string.purchaseToken_id), purchaseData.purchaseItem.purchaseToken);
+
+            tvTitle.setText(text);
+        }
     }
 
 

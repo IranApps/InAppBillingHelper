@@ -1,6 +1,8 @@
 package ir.tgbs.iranapps.billing.helper.util;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.RemoteException;
 
 import org.json.JSONException;
@@ -39,6 +41,10 @@ public class SkuDetailGetter extends Thread {
         this.listener = listener;
     }
 
+    public void setListener(SkuDetailListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void run() {
         if (inAppService == null) {
@@ -60,16 +66,37 @@ public class SkuDetailGetter extends Thread {
 
             if (responseCode == InAppKeys.RESPONSE_OK) {
                 ArrayList<Product> products = new ArrayList<>();
-                for (String product : response.getStringArrayList(InAppKeys.DETAILS_LIST)) {
-                    products.add(new Product(product));
+                ArrayList<String> productsJson = response.getStringArrayList(InAppKeys.DETAILS_LIST);
+                if (productsJson != null) {
+                    for (String product : productsJson) {
+                        products.add(new Product(product));
+                    }
                 }
-                listener.onGotSkus(products);
+                postOnGotSkus(products);
             } else {
-                listener.onFailedGettingSkus(InAppError.getError(responseCode));
+                postOnFailedGettingSkus(InAppError.getError(responseCode));
             }
         } catch (RemoteException | JSONException e) {
             e.printStackTrace();
-            listener.onFailedGettingSkus(InAppError.LOCAL_EXCEPTION);
+            postOnFailedGettingSkus(InAppError.LOCAL_EXCEPTION);
         }
+    }
+
+    private void postOnGotSkus(final ArrayList<Product> productDetails) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onGotSkus(productDetails);
+            }
+        });
+    }
+
+    private void postOnFailedGettingSkus(final InAppError error) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onFailedGettingSkus(error);
+            }
+        });
     }
 }

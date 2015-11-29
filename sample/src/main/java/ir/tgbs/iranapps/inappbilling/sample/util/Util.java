@@ -32,15 +32,6 @@ public class Util {
     }
 
     public static void showInAppBillingNotSupported(Activity activity, boolean finishActivity) {
-        showAlertDialogBackground(activity, "InAppBilling version: " + InAppHelper.IAB_VERSION + "is not supported.", finishActivity);
-    }
-
-    public static void showAlertDialogBackground(final Activity activity, final String message, final boolean finishActivity) {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                showAlertDialog(activity, message, finishActivity);
-            }
-        });
+        showAlertDialog(activity, "InAppBilling version: " + InAppHelper.IAB_VERSION + "is not supported.", finishActivity);
     }
 }

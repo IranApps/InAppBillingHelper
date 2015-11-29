@@ -24,7 +24,7 @@
 
         <activity android:name=".activity.BuyActivity"/>
 
-        <activity android:name=".activity.PurchaseActivity"/>
+        <activity android:name=".activity.PurchasesActivity"/>
     </application>
 
 </manifest>

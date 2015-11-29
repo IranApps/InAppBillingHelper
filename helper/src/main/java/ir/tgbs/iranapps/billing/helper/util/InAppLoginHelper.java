@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.RemoteException;
 
 import ir.tgbs.iranapps.billing.IranAppsIabService;
@@ -18,27 +20,24 @@ import ir.tgbs.iranapps.billing.helper.interfaces.LoginListener;
 public class InAppLoginHelper extends InAppRequestHelper {
     public static final int LOGIN_REQUEST_CODE = 1001;
     private IranAppsIabService inAppService;
-    private LoginListener loginListener;
-    private Activity activity;
+    private LoginListener listener;
 
     /**
      * creates instanceOf InAppLoginHelper with given parameter<br>
      *
-     * @param activity      instance of the activity that has requested the login process
      * @param inAppService  the service that provides communicate to IranApps in-app billing service
-     * @param loginListener callback listener for indicating failure and success consume process
+     * @param listener callback listener for indicating failure and success consume process
      */
-    public InAppLoginHelper(Activity activity, IranAppsIabService inAppService, LoginListener loginListener) {
-        super(loginListener);
-        this.activity = activity;
+    public InAppLoginHelper(IranAppsIabService inAppService, LoginListener listener) {
+        super();
         this.inAppService = inAppService;
-        this.loginListener = loginListener;
+        this.listener = listener;
     }
 
     @Override
-    public void start() {
+    public void start(Activity activity) {
         if (inAppService == null) {
-            loginListener.onLoginFailed(InAppError.LOCAL_HELPER_NOT_CONNECTED_TO_SERVICE);
+            postLoginFailed(InAppError.LOCAL_HELPER_NOT_CONNECTED_TO_SERVICE);
             return;
         }
 
@@ -46,14 +45,15 @@ public class InAppLoginHelper extends InAppRequestHelper {
             Bundle loginResponse = inAppService.getLoginIntent(InAppHelper.IAB_VERSION, InAppHelper.PACKAGE_NAME);
 
             if (loginResponse.getBoolean(InAppKeys.USER_IS_LOGIN)) {
-                loginListener.onLoginSucceed();
+                postLoginSucceed();
             } else {
                 PendingIntent loginIntent = loginResponse.getParcelable(InAppKeys.LOGIN_INTENT);
+                assert loginIntent != null;//TODO send error instead of assertion
                 activity.startIntentSenderForResult(loginIntent.getIntentSender(), LOGIN_REQUEST_CODE, new Intent(), 0, 0, 0);
             }
         } catch (RemoteException | IntentSender.SendIntentException e) {
             e.printStackTrace();
-            loginListener.onLoginFailed(InAppError.getError(-1));
+            postLoginFailed(InAppError.getError(-1));
         }
     }
 
@@ -61,13 +61,39 @@ public class InAppLoginHelper extends InAppRequestHelper {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == LOGIN_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                loginListener.onLoginSucceed();
+                postLoginSucceed();
             } else {
                 int responseCode = data == null ? InAppKeys.BILLING_RESPONSE_RESULT_ERROR :
                         data.getIntExtra(InAppKeys.RESPONSE_CODE, InAppKeys.BILLING_RESPONSE_RESULT_ERROR);
-                loginListener.onLoginFailed(InAppError.getError(responseCode));
+                postLoginFailed(InAppError.getError(responseCode));
             }
         }
     }
 
+    public void setListener(LoginListener listener) {
+        this.listener = listener;
+    }
+
+    public LoginListener getListener() {
+        return listener;
+    }
+
+    private void postLoginSucceed() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onLoginSucceed();
+            }
+        });
+    }
+
+    private void postLoginFailed(final InAppError error) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onLoginFailed(error);
+            }
+        });
+
+    }
 }

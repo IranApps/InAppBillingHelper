@@ -8,7 +8,8 @@
     <string name="sku_list">لیست محصولات قابل خرید</string>
     <string name="buy_list">لیست محصولات خریده شده</string>
     <string name="sku_name">نام محصول:</string>
-    <string name="sku_id">شناسه محصول:</string>
+    <string name="sku_id">شناسه محصول</string>
+    <string name="purchaseToken_id">شناسه خرید</string>
     <string name="sku_price">قیمت محصول:</string>
     <string name="buy">خرید</string>
 

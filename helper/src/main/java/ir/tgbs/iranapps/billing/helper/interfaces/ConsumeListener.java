@@ -15,17 +15,17 @@ public interface ConsumeListener extends BaseInAppListener {
     /**
      * this method is called when the consume process ic successfully completed.
      */
-    public void onConsumeSucceed();
+    void onConsumeSucceed();
 
     /**
      * this method is called when the requested product is not owned by user
      */
-    public void onItemNotOwned();
+    void onItemNotOwned();
 
     /**
      * this method is called whenever the process is failed.
      *
      * @param error the occurred error
      */
-    public void onConsumeFailed(InAppError error);
+    void onConsumeFailed(InAppError error);
 }

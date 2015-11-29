@@ -1,11 +1,13 @@
 package ir.tgbs.iranapps.billing.helper.model;
 
+import java.io.Serializable;
+
 /**
  * @author Shima Zeinali
  * @author Khaled Bakhtiari
  * @since 2015-02-14
  */
-public class PurchaseData {
+public class PurchaseData implements Serializable {
 
     /**
      * sku of this purchase

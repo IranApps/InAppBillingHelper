@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.RemoteException;
 
 import java.util.ArrayList;
@@ -73,7 +75,7 @@ public class InAppHelper {
      * @param context             used to communicate to IranApps billing service
      * @param inAppHelperListener listener used to notice you when InAppHelper connects to IranApps billing service
      */
-    public InAppHelper(Context context, InAppHelperListener inAppHelperListener) {
+    public InAppHelper(Context context, final InAppHelperListener inAppHelperListener) {
         PACKAGE_NAME = context.getPackageName();
 
         //bind to IranApps billing service
@@ -82,11 +84,18 @@ public class InAppHelper {
         inAppConnection = new InAppServiceConnection(inAppHelperListener);
         boolean canConnect = context.getApplicationContext().bindService(serviceIntent, inAppConnection, Context.BIND_AUTO_CREATE);
         if (!canConnect) {
+            final InAppError inAppError;
             if (!isIranAppsInstalled(context)) {
-                inAppHelperListener.onCantConnectToIABService(InAppError.BILLING_RESPONSE_IRANAPPS_NOT_AVAILABLE);
+                inAppError = InAppError.BILLING_RESPONSE_IRANAPPS_NOT_AVAILABLE;
             } else {
-                inAppHelperListener.onCantConnectToIABService(InAppError.LOCAL_CANT_CONNECT_TO_IAB_SERVICE);
+                inAppError = InAppError.LOCAL_CANT_CONNECT_TO_IAB_SERVICE;
             }
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    inAppHelperListener.onCantConnectToIABService(inAppError);
+                }
+            });
         }
     }
 

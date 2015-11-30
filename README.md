@@ -6,7 +6,7 @@ in the project there's also a sample of how to use the helper.
 
 you can find [IranApps in-app billing documentation here](http://developer.iranapps.ir/docs/inappbilling)
 
-### Current version 1.0.2
+### Current version 2.0
 
 ### Gradle Dependency (jCenter)  
 the library is uploaded to jCenter and you can see it below:  
@@ -19,7 +19,7 @@ the library is uploaded to jCenter and you can see it below:
 Easily reference the library in your Android projects using this dependency in your module's `build.gradle` file:  
 ```Gradle
 dependencies {
-    compile 'ir.tgbs.iranapps:billing-helper:1.0.2'
+    compile 'ir.tgbs.iranapps:billing-helper:2.0'
 }
 ```
 
@@ -27,7 +27,7 @@ dependencies {
 
 ### Import in Eclipse  
 to use this library in your eclpise projects to the following:  
-1. download the library's jar file from [jCenter at here](https://bintray.com/artifact/download/iranapps/maven/ir/tgbs/iranapps/billing-helper/1.0.2/billing-helper-1.0.2.jar)  
+1. download the library's jar file from [jCenter at here](https://bintray.com/artifact/download/iranapps/maven/ir/tgbs/iranapps/billing-helper/2.0/billing-helper-2.0.jar)  
 2. add the jar as a library to your project.  
 3. download IranApps in-app billing aidl file [from here](https://raw.githubusercontent.com/IranApps/InAppBillingHelper/master/helper/src/main/aidl/ir/tgbs/iranapps/billing/IranAppsIabService.aidl)  
 4. put the downloaded aidl file in `src/ir/tgbs/iranapps/billing`  

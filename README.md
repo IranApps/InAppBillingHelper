@@ -76,6 +76,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
+---
+
+## Activity recreation support (config changes)
+if your activity is able to be destroyed and recreated you must save and restore the InAppHelper of that activity and update the listener of any operation that is currently in progress.
+for an example you can see the [BaseInAppActivity](https://github.com/IranApps/InAppBillingHelper/blob/master/sample/src/main/java/ir/tgbs/iranapps/inappbilling/sample/activity/BaseInAppActivity.java) and the implementation of 'InAppHolderFragment' that saves the data and can be retained in activity's onCreate method(also see the onCreate() method inside BaseInAppActivity on how the InAppHelper instance is created). and see [PurchaseActivity](https://github.com/IranApps/InAppBillingHelper/blob/master/sample/src/main/java/ir/tgbs/iranapps/inappbilling/sample/activity/PurchasesActivity.java) on how the buy product operation's listener is updated.
+
+
 ## Proguard support
 if your using proguard in your app add this line to you proguard-rules.pro file
 ```
